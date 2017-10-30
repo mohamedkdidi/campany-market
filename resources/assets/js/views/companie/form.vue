@@ -12,37 +12,48 @@
                             <input type="text" class="form-control" v-model="form.name">
                             <small class="text-danger" v-if="errors.name">{{errors.name[0]}}</small>
                         </div>
+                    </div>
+                    <div class="col-sm-4">
                         <div class="form-group">
-                            <label>Stock</label>
+                            <label>E-mail</label>
+                            <input type="text" class="form-control" v-model="form.email">
+                            <small class="text-danger" v-if="errors.email   ">{{errors.email[0]}}</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control" v-model="form.address">
+                            <small class="text-danger" v-if="errors.address">{{errors.address[0]}}</small>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Price entered date</th>
+                            <th>Price entered time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in form.items">
+                            <td>
                             <select class="form-control" v-model="form.stock_id">
                                 <option>Select</option>
                                 <option v-for="stock in option.stocks" :value="stock.id">
-                                    {{stock.company}} / {{stock.name}}
+                                    {{stock.name}} 
                                 </option>
                             </select>
                             <small class="text-danger" v-if="errors.stock_id">{{errors.stock_id[0]}}</small>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Price entered date</label>
-                            <input type="date" class="form-control" v-model="form.entered_date">
-                            <small class="text-danger" v-if="errors.entered_date">{{errors.entered_date[0]}}</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Price entered time</label>
-                            <input type="time" class="form-control" v-model="form.entered_time">
-                            <small class="text-danger" v-if="errors.entered_time">{{errors.entered_time[0]}}</small>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="float" class="form-control" v-model="form.price"></textarea>
+                            </td>
+                            <td>
+                            <input type="float" v-model="item.price" class="form-control">
                             <small class="text-danger" v-if="errors.price">{{errors.price[0]}}</small>
-                        </div>
-                         <div class="form-group">
-                            <label>Type</label>
+                            </td>
+                            <td>
                             <select class="form-control" v-model="form.type">
                                 <option>
                                     Common stock
@@ -50,11 +61,31 @@
                                 <option>
                                     Preferred stock 
                                 </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-success">Save</button>
+                            </select></td>
+                            <td>
+                                <input type="date" v-model="item.entered_date" class="form-control">
+                                <small class="text-danger" v-if="errors.entered_date">{{errors.entered_date[0]}}</small>
+                            </td>
+                            <td>
+                                <input type="time" v-model="item.entered_time" class="form-control">
+                                <small class="text-danger" v-if="errors.entered_time">{{errors.entered_time[0]}}</small>
+                            </td>
+                            <td>
+                                <button type="button" @click="form.items.splice(index, 1)">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <a @click.stop="addLine">Add Exchange</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <button class="btn btn-warning btn-sm" @click="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
             </form>
         </div>
     </div>
@@ -73,7 +104,7 @@
                 option: {
                     stocks: []
                 },
-                title: 'Create',
+                title: 'Company and exchange',
                 initialize: '/api/companie/create',
                 redirect: '/companie',
                 store: '/api/companie',
@@ -82,7 +113,6 @@
         },
         beforeMount() {
             if(this.$route.meta.mode === 'edit') {
-                this.title = 'Edit'
                 this.initialize = '/api/companie/' + this.$route.params.id + '/edit'
                 this.store = '/api/companie/' + this.$route.params.id
                 this.method = 'put'
@@ -103,6 +133,18 @@
                     .catch(function(error) {
                         console.log(error)
                     })
+            },
+            addLine() {
+                this.form.items.push({
+                    stock_id: 'Select',
+                    price: 0,
+                    entered_date: '01/01/2017',
+                    entered_time: '00:00'
+                })
+            },
+            back(){
+                var vm = this
+                vm.$router.push(vm.redirect)
             },
             save() {
                 var vm = this

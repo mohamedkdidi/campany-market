@@ -4,10 +4,15 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// Font awesome
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
 .navbar {
     margin-top: 15px;
 }
-
+.panel-body.dashboard{
+    font-size: 12px;
+}
 .panel-heading {
     display: flex;
     justify-content: space-between;

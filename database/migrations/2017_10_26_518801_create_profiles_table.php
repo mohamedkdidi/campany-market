@@ -15,18 +15,23 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('stock_id')->unsigned();
             $table->string('name');
             $table->string('email');
             $table->string('phone');
             $table->string('address');
-            $table->enum('choices', array('common stock', 'preferred stock'));
-            $table->date('entered_date');
-            $table->time('entered_time');
-            $table->float('price');
             $table->timestamps();
         });
+
+        DB::table('profiles')->insert([
+            'id' => '1',
+            'name' => 'my company',
+            'email' => 'example@example.com',
+            'phone' => '123456',
+            'address' => ''
+        ]
+    );
     }
+
 
     /**
      * Reverse the migrations.
@@ -35,6 +40,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('profiles');
     }
 }

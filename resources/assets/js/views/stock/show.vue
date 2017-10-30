@@ -3,8 +3,9 @@
         <div class="panel-heading">
             <span class="panel-title">{{model.company}} / {{model.name}}</span>
             <div>
-                <router-link :to="'/stock/' + model.id + '/edit'" class="btn btn-primary btn-sm">Edit</router-link>
-                <button class="btn btn-danger btn-sm" @click="remove">Delete</button>
+                <button class="btn btn-success btn-sm" @click="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <router-link :to="'/stock/' + model.id + '/edit'" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"> Edit</router-link>
+                <button class="btn btn-danger btn-sm" @click="remove"><i class="fa fa-trash" aria-hidden="true"> Delete</button>
             </div>
         </div>
         <div class="panel-body">
@@ -33,12 +34,12 @@
     import Vue from 'vue'
     import axios from 'axios'
     export default {
-        name: 'CategoryShow',
+        name: 'StockShow',
         data() {
             return {
                 model: {},
                 resource: 'stock',
-                redirect: '/'
+                redirect: '/stock'
             }
         },
         beforeMount() {
@@ -59,6 +60,10 @@
                     .catch(function(error) {
                         console.log(error)
                     })
+            },
+            back(){
+                var vm = this
+                vm.$router.push(vm.redirect)
             },
             fetchData() {
                 var vm = this

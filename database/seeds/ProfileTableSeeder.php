@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use App\Companie;
-use App\CompanieItem;
+use App\Exchange;
 
 class ProfileTableSeeder extends Seeder
 {
@@ -16,26 +16,31 @@ class ProfileTableSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        profile::truncate();
+        Profile::truncate();
 
 
-        foreach(range(1, 25) as $i) {
 
-            $companie = Companie::create([
-                'stock_id' => $i,
-                'name' => $faker->sentence,
-                'entered_date' => '2017-'.mt_rand(1, 12).'-'.mt_rand(1, 28),
-                'entered_time' => '00:00',
-                'price' => $faker->numberBetween(1, 100)
-            ]);
 
-            foreach(range(1, mt_rand(2, 6)) as $j) {
-                CompanieItem::create([
-                    'companie_id' => $companie->id,
-                    'name' => $faker->sentence,
-                    'price' => $faker->numberBetween(1, 100)
-                ]);
-            }
-        }
+        $profile = Profile::create([
+            'name' => $faker->sentence,
+            'email' => $faker->email,
+            'address' => $faker->address,
+        ]);
+/*
+        $companie = Companie::create([
+            'name' => $faker->sentence,
+            'email' => $faker->email,
+            'address' => $faker->address,
+        ]);
+
+        Exchange::create([
+            'companies_id' => $companie->id,
+            'price' => $faker->numberBetween(1, 100),
+            'type' => '',
+            'entered_date' => '',
+            'entered_time' => '',
+        ]);
+ */       
+
     }
 }

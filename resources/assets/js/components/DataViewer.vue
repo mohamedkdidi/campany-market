@@ -3,8 +3,8 @@
         <div class="panel-heading">
             <span class="panel-title">{{title}}</span>
             <div>
-                <router-link :to="create" class="btn btn-primary btn-sm">Create</router-link>
-                <button class="btn btn-default btn-sm" @click="showFilter = !showFilter">F</button>
+                <router-link :to="create" class="btn btn-primary btn-sm"><i class="fa fa-file-o" aria-hidden="true"></i> Create</router-link>
+                <button class="btn btn-default btn-sm" @click="showFilter = !showFilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
             </div>
         </div>
         <div class="panel-body">

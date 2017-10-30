@@ -84,7 +84,6 @@ class StockController extends Controller
     {
         $stock = Stock::findOrFail($id);
 
-        // TODO: delete stock's invoices first
 
         $stock->delete();
 

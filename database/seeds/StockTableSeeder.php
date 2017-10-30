@@ -15,10 +15,10 @@ class StockTableSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        Customer::truncate();
+        Stock::truncate();
 
-        foreach(range(1, 25) as $i) {
-            Customer::create([
+        foreach(range(10, 25) as $i) {
+            Stock::create([
                 'email' => $faker->email,
                 'name' => $faker->name,
                 'phone' => $faker->phoneNumber,

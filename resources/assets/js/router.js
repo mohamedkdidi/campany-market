@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     routes: [
         {path: '/', component: require('./views/dashboard/index.vue')},
+        {path: '/dashboard', component: require('./views/dashboard/index.vue')},
         {path: '/profile', component: require('./views/profile/index.vue')},
 
         

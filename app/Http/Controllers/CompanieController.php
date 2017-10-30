@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Companie;
+use App\Exchange;
 use App\Stock;
 
 class CompanieController extends Controller
@@ -20,9 +21,9 @@ class CompanieController extends Controller
     {
         return response()
             ->json([
-                'form' => companie::initialize(),
+                'form' => Companie::initialize(),
                 'option' => [
-                    'stock' => Stock::orderBy('name')->get()
+                    'stocks' => Stock::orderBy('name')->get()
                 ]
             ]);
     }
@@ -30,16 +31,20 @@ class CompanieController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'stock_id' => 'required|exists:stocks,id',
-            'title' => 'required',
-            'entered_date' => 'required|date_format:Y-m-d',
-            'entered_time' => 'required|date_time:hh:mm',
-            'items.*.price' => 'required|numeric|min:0'
+            /*    
+            'name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            */
         ]);
 
         $data = $request->except('items');
-        $items = [];
 
+        $items = [];
+        
+        foreach($request->items as $item) {
+            $items[] = new Exchange($item);
+        }
 
         $companie = Companie::create($data);
 
@@ -58,7 +63,10 @@ class CompanieController extends Controller
 
         return response()
             ->json([
-                'model' => $companie
+                'model' => $companie,
+                'option' => [
+                    'stocks' => Stock::orderBy('name')->get()
+                ]
             ]);
     }
 
@@ -78,11 +86,9 @@ class CompanieController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'stock_id' => 'required|exists:stocks,id',
-            'title' => 'required',
-            'entered_date' => 'required|date_format:Y-m-d',
-            'entered_time' => 'required|date_time:hh:mm',
-            'items.*.price' => 'required|numeric|min:0'
+            'name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
         ]);
 
         $companie = Companie::findOrFail($id);
@@ -95,12 +101,12 @@ class CompanieController extends Controller
 
             if(isset($item['id'])) {
                 // update the item
-                CompanieItem::whereId($item['id'])
+                Exchange::whereId($item['id'])
                     ->whereCompanieId($companie->id)
                     ->update($item);
                 $itemIds[] = $item['id'];
             } else {
-                $items[] = new CompanieItem($item);
+                $items[] = new Exchange($item);
             }
         }
 
@@ -111,7 +117,7 @@ class CompanieController extends Controller
         // delete removed items
 
         if(count($itemIds)) {
-            CompanieItem::whereCompanieId($companie->id)
+            Exchange::whereCompanieId($companie->id)
                 ->whereNotIn('id', $itemIds)
                 ->delete();
         }
@@ -131,7 +137,7 @@ class CompanieController extends Controller
     {
         $companie = Companie::findOrFail($id);
 
-        CompanieItem::whereCompanieId($companie->id)
+        Exchange::whereCompanieId($companie->id)
             ->delete();
 
         $companie->delete();

@@ -2,7 +2,7 @@
     <div id="root">
         <div class="navbar navbar-default">
             <div class="navbar-brand">
-                <router-link to="/">Dashboard</router-link>
+                <router-link to="/dashboard">Dashboard</router-link>
             </div>
             <ul class="nav navbar-nav navbar-left">
                 <li><router-link to="/profile">Profile</router-link></li>

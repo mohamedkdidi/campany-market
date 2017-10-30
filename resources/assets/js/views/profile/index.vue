@@ -12,49 +12,25 @@
                             <input type="text" class="form-control" v-model="form.name">
                             <small class="text-danger" v-if="errors.name">{{errors.name[0]}}</small>
                         </div>
+                    </div>
+                    <div class="col-sm-4">
                         <div class="form-group">
-                            <label>Stock</label>
-                            <select class="form-control" v-model="form.stock_id">
-                                <option>Select</option>
-                                <option v-for="stock in option.stocks" :value="stock.id">
-                                    {{stock.company}} / {{stock.name}}
-                                </option>
-                            </select>
-                            <small class="text-danger" v-if="errors.stock_id">{{errors.stock_id[0]}}</small>
+                            <label>E-mail</label>
+                            <input type="text" class="form-control" v-model="form.email">
+                            <small class="text-danger" v-if="errors.email">{{errors.email[0]}}</small>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label>Price entered date</label>
-                            <input type="date" class="form-control" v-model="form.entered_date">
-                            <small class="text-danger" v-if="errors.entered_date">{{errors.entered_date[0]}}</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Price entered time</label>
-                            <input type="time" class="form-control" v-model="form.entered_time">
-                            <small class="text-danger" v-if="errors.entered_time">{{errors.entered_time[0]}}</small>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="float" class="form-control" v-model="form.price"></textarea>
-                            <small class="text-danger" v-if="errors.price">{{errors.price[0]}}</small>
-                        </div>
-                         <div class="form-group">
-                            <label>Type</label>
-                            <select class="form-control" v-model="form.type">
-                                <option>
-                                    common stock
-                                </option>
-                                <option>
-                                    preferred stock 
-                                </option>
-                            </select>
+                            <label>Address</label>
+                            <input type="text" class="form-control" v-model="form.address">
+                            <small class="text-danger" v-if="errors.address">{{errors.address[0]}}</small>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success">Save</button>
+                <button class="btn btn-warning btn-sm" @click="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
+
             </form>
         </div>
     </div>
@@ -73,7 +49,7 @@
                 option: {
                     stocks: []
                 },
-                title: 'Create',
+                title: 'Profile',
                 initialize: '/api/profile/create',
                 redirect: '/profile',
                 store: '/api/profile',
@@ -82,7 +58,7 @@
         },
         beforeMount() {
             if(this.$route.meta.mode === 'edit') {
-                this.title = 'Edit'
+                this.title = 'Profile'
                 this.initialize = '/api/profile/' + this.$route.params.id + '/edit'
                 this.store = '/api/profile/' + this.$route.params.id
                 this.method = 'put'
@@ -103,6 +79,10 @@
                     .catch(function(error) {
                         console.log(error)
                     })
+            },
+            back(){
+                var vm = this
+                vm.$router.push(vm.redirect)
             },
             save() {
                 var vm = this

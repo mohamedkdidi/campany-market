@@ -33,7 +33,8 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success">Save</button>
+                <button class="btn btn-warning btn-sm" @click="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> List</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
             </form>
         </div>
     </div>
@@ -48,9 +49,9 @@
                 form: {},
                 errors: {},
                 option: {},
-                title: 'Create',
+                title: 'New Stock',
                 initialize: '/api/stock/create',
-                redirect: '/',
+                redirect: '/stock',
                 store: '/api/stock',
                 method: 'post'
             }
@@ -78,6 +79,10 @@
                     .catch(function(error) {
                         console.log(error)
                     })
+            },
+            back(){
+                var vm = this
+                vm.$router.push(vm.redirect)
             },
             save() {
                 var vm = this

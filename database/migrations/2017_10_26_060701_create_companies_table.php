@@ -15,12 +15,9 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('stock_id')->unsigned();
             $table->string('name');
-            $table->enum('choices', array('common stock', 'preferred stock'));
-            $table->date('entered_date');
-            $table->time('entered_time');
-            $table->float('price');
+            $table->string('email');
+            $table->string('address');
             $table->timestamps();
         });
     }
