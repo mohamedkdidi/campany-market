@@ -61,7 +61,7 @@ Install all laravel dependencies:
 
 $ `composer install`
 
-Modify  value in .env with your database config.
+Modify  value in .env with your database config or create empty database named 'market'.
 DB_DATABASE=market
 DB_USERNAME=root
 DB_PASSWORD=
